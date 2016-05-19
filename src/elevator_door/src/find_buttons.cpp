@@ -110,9 +110,7 @@ class ImageConverter
                         exists = true;
                 } 
                 if(!exists)
-                {
                     buttons.push_back(circles[i]);
-                }	
             }
 
             ROS_INFO("%ld", buttons.size());
@@ -228,8 +226,8 @@ class ImageConverter
                     int x = cvRound(buttons.at(k)[0]);
                     int y = cvRound(buttons.at(k)[1]);
                     int radius = cvRound(buttons.at(k)[2]);
-                    for(unsigned int i = x - radius; i < x + radius; i++){
-
+                    for(unsigned int i = x - radius; i < x + radius; i++)
+                    {
                         for(unsigned int j = y - radius; j < y + radius; j++)
                         {
                             int b = src_gray.at<Vec3b>(j, i)[0]; // B, g, r will be same because it is a grayscale image	
