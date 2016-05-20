@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Mobile robot elevator operation by Ashay-Lokhande</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/Ashay-Lokhande/Mobile_Robot_Elevator_Operation">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/Ashay-Lokhande/Mobile_Robot_Elevator_Operation/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/Ashay-Lokhande/Mobile_Robot_Elevator_Operation/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Mobile robot elevator operation</h1>
+          <p></p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/Ashay-Lokhande">Ashay-Lokhande</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h3>
+<a id="brief-description" class="anchor" href="#brief-description" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Brief Description</h3>
+
+<p>For mobile robots to be effective in a multi-floor environment, they must be able to operate an elevator and determine when the elevator reaches a floor. In this project, I wrote a C++ node in ROS (Robot Operating System) that subscribes to a USB camera’s video feed and analyzes that feed frame by frame to detect a change in the lights on the elevator buttons. This project was created to work specifically on the elevators of the Gates Dell Complex located on the campus of UT Austin.</p>
+
+<h3>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h3>
+
+<p>The Building Wide Intelligence’s primary mission is to design fully autonomous robots that can become a permanent part of the environment in the Gates-Dell Complex. In the process of becoming fully autonomous, these robots have to be able to navigate the interior environment of the main building. Currently, the robots are able to navigate a pre-configured map environment which is configured using a separate method. Ultimately, the goal is to have autonomous robots which can navigate variable environments (environments in which objects don’t have a fixed location, but they move around dynamically as individuals interact with the environment). </p>
+
+<p>A part of this mission is to implement functionality which would allow the robot to move in between floors. Currently, the robots have very little functionality related to interacting with the elevators. In this research paper, we explore an important components of this key functionality when interacting with the elevator - how the robot is to determine what specific floor it is on. </p>
+
+<p>Using a secondary USB camera, we have programmed a Robot Operating System node which can take a clear video feed (presumably in an empty elevator) of the elevator button panel and detect which specific buttons are lit. This detection is specific to circular buttons with floor indicator lights in the center of the button. First, we detect the specific buttons and the numbers placed next to them. We use this detection of buttons to further work on enabling the node to detect the circles in the center and then map a specific button to the relevant floor number in real time.</p>
+
+<h3>
+<a id="demos" class="anchor" href="#demos" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Demos</h3>
+
+<ol>
+<li> <a href="https://www.youtube.com/watch?v=sZY1VVkkkG4&amp;feature=youtu.be">https://www.youtube.com/watch?v=sZY1VVkkkG4&amp;feature=youtu.be</a>
+This demo features a video displaying a primitive version of our floor detector. During this stage of development, the program counts the number of white pixels seen on each button in order to determine the state of the button. It states that the floor corresponding to that button has been reached when the white pixel count drops by an amount that has been hard coded. The idea behind this implementation is that the white pixel count decreases when the light on the button turns off. It is evident that this method will not work well due to the fact that when people move within the elevator, or even the elevator door opens, the lighting changes and can give false positives. For example, the elevator button corresponding to floor seven changes quite a bit whenever the door opens. This is why it incorrectly states that floor seven has been reached multiple times. The program also only checks to see if the floor has been reached by checking when the lights turn off. Thus, when the elevator reaches the bottom floor and there are still buttons pressed for the floors above it, the elevator resets the buttons and the program is tricked into thinking that it has simultaneously reached all the floors whose buttons were previously lit.</li>
+</ol>
+
+<h3>
+<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+
+<p><a href="https://github.com/archiejain1021" class="user-mention">@archiejain1021</a>
+<a href="https://github.com/Ashay-Lokhande" class="user-mention">@Ashay-Lokhande</a>
+<a href="https://github.com/brahmasp" class="user-mention">@brahmasp</a></p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
