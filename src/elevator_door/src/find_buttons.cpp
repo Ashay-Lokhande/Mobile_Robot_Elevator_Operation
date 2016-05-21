@@ -17,6 +17,9 @@ vector<Vec3f> buttons;
 int whiteCountAvg [] = {0,0,0,0,0,0,0};
 int floors [] = {5, 6, 7, 2, 3, 4, 1};
 int count = 0;
+Mat buttons_mats[10];
+//Mat subImage(output, cv::Rect(x1, y1, x2-x1, y2-y1));
+//imshow("sub", subImage);
 
 class ImageConverter
 {
@@ -58,12 +61,16 @@ class ImageConverter
             return;
         }
 
-        Mat src, src_gray, btn_finder;
-        /// Cloning the read image into a Mat format and assigning it to the variable src
+        Mat src, src_gray;
+        
+        // Cloning the read image into a Mat format and assigning it to the variable src
         src = cv_ptr->image.clone();
 
         if( !src.data )
-        { return; }
+        { 
+            ROS_INFO("No image data is being recieved from the camera feed. Make sure you are subscribed to the correct topic");
+            return; 
+        }
 
         /*       //Applies erosion image filter
                  IplImage* img = new IplImage(src);
@@ -77,6 +84,8 @@ class ImageConverter
         //Occurs once every frame until we know we have found all 10 buttons
         if(!found_buttons)
         {
+            Mat btn_finder;
+
             //Threshold the grayscale to only keep the black pixels, which are the black circles next to the actual buttons
             inRange(src_gray, cv::Scalar(10, 10, 10), cv::Scalar(80, 80, 80), btn_finder); 
 
