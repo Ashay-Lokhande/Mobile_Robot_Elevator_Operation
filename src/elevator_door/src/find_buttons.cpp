@@ -17,7 +17,7 @@ vector<Vec3f> buttons;
 int whiteCountAvg [] = {0,0,0,0,0,0,0};
 int floors [] = {5, 6, 7, 2, 3, 4, 1};
 int count = 0;
-Mat buttons_mats[10];
+Mat button_mats[7];
 //Mat subImage(output, cv::Rect(x1, y1, x2-x1, y2-y1));
 //imshow("sub", subImage);
 
@@ -62,7 +62,7 @@ class ImageConverter
         }
 
         Mat src, src_gray;
-        
+
         // Cloning the read image into a Mat format and assigning it to the variable src
         src = cv_ptr->image.clone();
 
@@ -111,7 +111,7 @@ class ImageConverter
                 for(int j = 0; j < buttons.size(); j++)
                 {
                     int radius = cvRound(buttons[i][2]);
-                    
+
                     //If statement checks to see if the center of the found circle is within 3 radii of any of the virvles already found. If this is the case
                     //we do not add the circle to the vector
                     if(cvRound(circles[i][0]) > cvRound(buttons[j][0]) - 3* radius && cvRound(circles[i][0]) < cvRound(buttons[j][0] + 3 * radius) &&
@@ -235,6 +235,7 @@ class ImageConverter
                     int x = cvRound(buttons.at(k)[0]);
                     int y = cvRound(buttons.at(k)[1]);
                     int radius = cvRound(buttons.at(k)[2]);
+
                     for(unsigned int i = x - radius; i < x + radius; i++)
                     {
                         for(unsigned int j = y - radius; j < y + radius; j++)
@@ -253,6 +254,23 @@ class ImageConverter
         }
         else 
         {
+
+            //Creates a subImage Mat of each button and stores that in the instance variable button_mats
+            //Occurs every frame to refresh the image
+            //Allows us to look and perform filters on each button individually
+            for(int k = 0; k < buttons.size(); k++)
+            {
+                int total = 0;
+                int x = cvRound(buttons.at(k)[0]);
+                int y = cvRound(buttons.at(k)[1]);
+                int radius = cvRound(buttons.at(k)[2]);
+
+                Mat img = src.clone(); 
+                Mat subImage(img, cv::Rect(x - radius, y - radius, (x + radius) - (x - radius), (y + radius) - (y - radius)));
+                button_mats[k] = subImage;
+            }
+
+
             count++;
             //Threshold to find when the button is lit
             for(int k = 0; k < buttons.size(); k++)
@@ -289,9 +307,12 @@ class ImageConverter
             }
             if(count == 5)
                 count = 0;
+
+
+            //imshow(OPENCV_WINDOW, button_mats[0]);
         }
         imshow(OPENCV_WINDOW, src);
-        imshow(OUT_WINDOW, src_gray);     
+        imshow(OUT_WINDOW, src_gray); 
         waitKey(7);
     }
 
